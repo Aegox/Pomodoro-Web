@@ -1,0 +1,34 @@
+* {
+	margin: 0;
+	padding: 0
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	width: 100%;
+	height: 100vh;
+	gap: 50px
+}
+
+header {
+	text-align: center
+}
+
+.clock {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	gap: 50px
+}
+
+.times {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	font-size: 40px
+}
