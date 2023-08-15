@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const notif = (message) => {
         if (Notification.permission === "granted") {
             let body = message;
-            let icon = ";
+            let icon = "";
             let title = "The Pomodoro Clock";
             let options = {
                 body: body,      
