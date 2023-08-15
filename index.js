@@ -2,8 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const pause = document.querySelector("#set-pause");
     const play = document.querySelector("#set-play");
     const reset  = document.querySelector("#set-reset");
+    const config  = document.querySelector("#set-config");
     const resting = document.querySelector('.rest');
-    let minutes = 30;
+    const configuration = document.querySelector(".configuration");
+    const config_work = document.querySelector("#work-m");
+    const config_rest = document.querySelector("#rest-m");
+    const config_save = document.querySelector("#save-config");
+    const rest_message = document.querySelector(".rest");
+    let work_minutes = 30;
+    let work_seconds = 0;
+    let rest_minutes = 10;
+    let rest_seconds = 0;
+    let minutes = work_minutes;
     let seconds = 60;
     let interval;
     let rest_bool = false;
@@ -15,18 +25,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const notif = (message) => {
         if (Notification.permission === "granted") {
-            var body = message;
-            var icon = "https://www.quecodigo.com/img/qc_logo.jpg";
-            var title = "The Pomodoro Clock";
-            var options = {
-                body: body,      //El texto o resumen de lo que deseamos notificar.
-                icon: icon,      //El URL de una imágen para usarla como icono.
-                lang: "ES",      //El idioma utilizado en la notificación.
-                tag: 'notify',   //Un ID para el elemento para hacer get/set de ser necesario.
-                dir: 'auto',     // izquierda o derecha (auto).
-                renotify: "true" //Se puede volver a usar la notificación, default: false.
+            let body = message;
+            let icon = ";
+            let title = "The Pomodoro Clock";
+            let options = {
+                body: body,      
+                icon: icon,      
+                lang: "ES",      
+                tag: 'notify',   
+                dir: 'auto',     
+                renotify: "true" 
             }
-            var notification = new Notification(title,options);
+            let audio = new Audio('https://directory.audio/media/fc_local_media/audio_preview/pending-notification.mp3');
+            audio.play()
+            let notification = new Notification(title,options);
             setTimeout(notification.close.bind(notification), 10000);
         }
     }
@@ -34,22 +46,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const rest = () => {
         interval = undefined;
         if (!rest_bool) {
-            notif("Resting of 10 minutes!");
+            rest_message.innerHTML = `Rest of ${rest_minutes} minutes`
+            notif(`Resting of ${rest_minutes} minutes!`);
             resting.classList.toggle("_show");        
-            minutes = 9;
-            seconds = 60;
+            minutes = rest_minutes;
             rest_bool = true
-            console.log(true)
             interval = setInterval(clock, 1000);
             return
         }
-        notif("Working Now of 30 minutes!");
+        notif(`Working Now of ${work_minutes} minutes!`);
         resting.classList.toggle("_show");        
-        minutes = 30;
-        seconds = 60;
+        minutes = work_minutes;
         rest_bool = false;
         interval = setInterval(clock, 1000)
-        console.log(false);
         return
     } 
 
@@ -66,18 +75,19 @@ document.addEventListener("DOMContentLoaded", () => {
             interval = undefined;
             rest();
         }
-        if (seconds == 0 || minutes == 30) {
+        if (seconds == 0 || minutes == work_minutes) { 
             minutes = minutes - 1;
             seconds = 60;
             document.getElementById("minutes").innerHTML = minutes;
         };
     }
 
-    
-
     play.addEventListener("click", () => {
         if (interval) {return false}
-        interval = setInterval(clock, 1000)
+        interval = setInterval(clock, 1000);
+        const audio = new Audio('https://directory.audio/media/fc_local_media/audio_preview/notification-perc-bip.mp3');
+        audio.play()
+
     });
     pause.addEventListener("click", () => {
         clearInterval(interval);
@@ -87,13 +97,27 @@ document.addEventListener("DOMContentLoaded", () => {
     reset.addEventListener("click", () => {
         clearInterval(interval);
         interval = undefined;
-        minutes = 30;
+        minutes = work_minutes;
         seconds = 60;
         document.getElementById("seconds").innerHTML = "00";
         document.getElementById("minutes").innerHTML = minutes;
 
     })
+     config.addEventListener("click", () => {
+        configuration.classList.toggle("_show")    
+    });
 
+    config_save.addEventListener("click", () => {
+        work_minutes = config_work.value;
+        rest_minutes = config_rest.value;
+        minutes = work_minutes;
+        seconds = 60;
+        clearInterval(interval);
+        interval = undefined;
+        document.getElementById("seconds").innerHTML = "00";
+        document.getElementById("minutes").innerHTML = minutes;
+        configuration.classList.toggle("_show")    
+    });
     
 })
 

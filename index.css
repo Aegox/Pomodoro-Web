@@ -94,7 +94,7 @@ h6 {
 	width: 70%;
 	transition: left 1s ease;
 	z-index: 100
-};
+}
 
 ._show {
 }
@@ -104,6 +104,30 @@ h6 {
 	width: 175px;
 	text-align: end;
 }
+
+.configuration {
+	display: none;
+	background-color: #222;
+	padding: 20px;
+	color: white;
+	position: absolute;
+	font-size: 18px;
+}
+
+.configuration._show {
+	display: block;	
+	right: 65%;
+}
+
+.configuration input {
+	width: 20%
+}
+
+.configuration button {
+	width: 100%;
+	margin-top: 15px
+}
+
 
 @media screen and (max-width: 600px) {
 	header {
